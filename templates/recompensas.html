@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="home-title" style="text-align:center; margin-bottom:20px;">Recompensas</h2>
+
+<div class="container">
+
+    {% for r in items %}
+        <div class="reward-card">
+
+            <h3>{{ r.titulo }}</h3>
+            <p>{{ r.descricao }}</p>
+
+            <p><strong>Custo:</strong> {{ r.custo }} moedas</p>
+
+            <form action="{{ url_for('solicitar_recompensa', reward_id=r.id) }}" method="post">
+    <button type="submit">Solicitar Resgate</button>
+</form>
+
+        </div>
+    {% else %}
+        <p style="text-align:center;">Nenhuma recompensa disponível.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

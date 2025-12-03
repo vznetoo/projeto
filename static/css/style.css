@@ -1,0 +1,470 @@
+/* =========================================================
+   GLOBAL
+========================================================= */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background: linear-gradient(135deg, #dfffe2, #b9f3c4, #8de6a6);
+    background-size: 300% 300%;
+    animation: bgMove 12s ease infinite;
+}
+
+/* Animação do fundo */
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    width: 95%;
+    max-width: 980px;
+    margin: 40px auto;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+nav {
+    background: #1e7c35;
+    padding: 12px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 18px;
+}
+
+nav a:hover {
+    opacity: 0.75;
+}
+
+#ecoLogo {
+    width: 180px;
+    height: 50px;
+}
+
+/* =========================================================
+   CARDS / COMPONENTES
+========================================================= */
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    animation: fadeIn 0.4s ease;
+}
+
+.center-card {
+    max-width: 420px;
+    margin: 60px auto;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   FORM INPUTS
+========================================================= */
+.input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.btn, .btn-green {
+    width: 100%;
+    padding: 12px;
+    background: #1e7c35;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn:hover,
+.btn-green:hover {
+    opacity: .9;
+}
+
+/* =========================================================
+   FLASH MESSAGES
+========================================================= */
+.flash {
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.success { background: #d4f7d8; color: #155c2a; }
+.error   { background: #ffd6d6; color: #8a1f1f; }
+
+/* =========================================================
+   HOME PAGE
+========================================================= */
+.home-wrapper {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 75vh;
+}
+
+.home-card {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    animation: fadeInUp 0.9s ease;
+}
+
+.home-logo {
+    width: 180px;
+    margin-bottom: 20px;
+    animation: float 4s ease-in-out infinite;
+}
+
+.home-title {
+    font-size: 32px;
+    color: #1e7c35;
+}
+
+.home-text {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Animação página HOME */
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   LOGIN PAGE
+========================================================= */
+.login-card {
+    max-width: 420px;
+    margin: 80px auto;
+    padding: 30px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: fadeIn .4s ease;
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* =========================================================
+   RECOMPENSAS
+========================================================= */
+.reward-card {
+    background: rgba(255,255,255,0.90);
+    padding: 20px;
+    border-left: 6px solid #1e7c35;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.reward-card button {
+    padding: 10px 16px;
+    background: #1e7c35;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.reward-card button:hover {
+    opacity: .85;
+}
+
+/* =========================================================
+   ANIMAÇÃO DAS FOLHAS
+========================================================= */
+#leaf-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.leaf {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    opacity: 0.8;
+    background-image: url('/static/img/leaf.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: fall 8s linear infinite;
+}
+
+@keyframes fall {
+    from {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.4;
+    }
+}
+
+
+/* ============================================
+   PAINEL ADMIN – LAYOUT PROFISSIONAL
+   Sidebar fixa + conteúdo rolando
+============================================ */
+
+/* Container geral */
+.admin-wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* ----------- SIDEBAR ----------- */
+
+.admin-menu {
+    width: 230px;
+    background: #145c25;
+    padding: 25px 20px;
+    position: fixed;      /* FICA PARADO */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    color: white;
+    overflow-y: auto;
+}
+
+.admin-menu h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.admin-menu a {
+    display: block;
+    text-decoration: none;
+    padding: 10px 5px;
+    margin-bottom: 10px;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.admin-menu a:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.admin-menu .logout {
+    margin-top: 20px;
+    background: #be2a2a;
+    text-align: center;
+}
+
+.admin-menu .logout:hover {
+    background: #991f1f;
+}
+
+/* ----------- ÁREA PRINCIPAL ----------- */
+
+.admin-main {
+    margin-left: 250px;
+    padding: 30px 40px;
+    width: calc(100% - 250px);
+    margin-top: 80px; /* empurra pra baixo */
+}
+
+/* Cards */
+.admin-card {
+    background: rgba(255,255,255,0.88);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    margin-bottom: 35px;
+    animation: fadeIn 0.4s ease;
+}
+
+.admin-card h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Listas simples */
+.admin-list li {
+    margin: 6px 0;
+}
+
+/* ----------- TABELAS ----------- */
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-table th {
+    background: #1e7c35;
+    padding: 12px;
+    color: white;
+    text-align: left;
+    font-size: 15px;
+}
+
+.admin-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.admin-table tr:nth-child(even) {
+    background: #f7fff8;
+}
+
+.admin-table tr:hover {
+    background: #e8ffe8;
+}
+
+/* ----------- FORMULÁRIOS ----------- */
+
+.admin-form .input,
+.admin-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #b8b8b8;
+    font-size: 15px;
+}
+
+.admin-form button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    background: #1e7c35;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.admin-form button:hover {
+    opacity: 0.9;
+}
+
+/* ----------- BOTÕES AÇÃO (aprovar/recusar) ----------- */
+
+.admin-action {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.admin-action.success {
+    background: #1e7c35;
+    color: white;
+}
+
+.admin-action.success:hover {
+    background: #155a27;
+}
+
+.admin-action.danger {
+    background: #c22e2e;
+    color: white;
+}
+
+.admin-action.danger:hover {
+    background: #9f2525;
+}
+
+/* Animação */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ===== AJUSTE DO MENU ADMIN PARA NÃO FICAR SOBRE A LOGO ===== */
+
+/* Altura do navbar */
+:root {
+    --navbar-height: 65px;
+}
+
+/* Desce a sidebar */
+.admin-menu {
+    top: var(--navbar-height);
+}
+
+/* Ajusta o conteúdo também */
+.admin-main {
+    margin-top: calc(var(--navbar-height) + 20px);
+}
+
+/* Ajuste da cor da sidebar para igualar ao navbar */
+.admin-menu {
+    background: #1e7c35; /* mesmo verde do navbar */
+}
+
+.footer {
+    width: 100%;
+    background: #1e7c35;            /* verde padrão */
+    color: white;
+    padding: 18px 0;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 40px;               /* separa do conteúdo */
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+}
+
+/* Garante que o footer fique no fim da página mesmo em telas grandes */
+body, html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}

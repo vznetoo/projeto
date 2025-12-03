@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title or "EcoMoeda" }}</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    
+</head>
+
+<body>
+
+    <!-- ================= NAV ================= -->
+    <nav>
+        <canvas id="ecoLogo"></canvas>
+
+        <div class="nav-links">
+
+            <!-- ===== VISITANTE ===== -->
+            {% if not session.get('user') %}
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('login') }}">Entrar</a>
+                <a href="{{ url_for('register') }}">Criar Conta</a>
+
+            <!-- ===== LOGADO ===== -->
+            {% else %}
+
+                {% if session['user']['tipo'] == 'admin' %}
+                    <!-- ===== ADMIN ===== -->
+                    <a href="{{ url_for('admin') }}">Painel Administrativo</a>
+                    <a href="{{ url_for('logout') }}">Sair</a>
+
+                {% else %}
+                    <!-- ===== USUÁRIO NORMAL ===== -->
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('campanhas') }}">Campanhas</a>
+                    <a href="{{ url_for('recompensas') }}">Recompensas</a>
+                    <a href="{{ url_for('logout') }}">Sair</a>
+                {% endif %}
+
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- ================= CONTEÚDO ================= -->
+    <div class="container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for cat, msg in messages %}
+                    <div class="flash {{ cat }}">{{ msg }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- ================= RODAPÉ ================= -->
+ <footer class="footer">
+    <p>EcoMoeda — Nosso planeta agradece. Seu bolso também.</p>
+</footer>
+
+    <!-- ================= ANIMAÇÃO DO LOGO ================= -->
+    <script>
+        const canvas = document.getElementById("ecoLogo");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = 180;
+        canvas.height = 50;
+
+        ctx.font = "bold 32px Arial";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText("EcoMoeda", 0, 35);
+
+        const textData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const particles = [];
+
+        for (let y = 0; y < canvas.height; y += 3) {
+            for (let x = 0; x < canvas.width; x += 3) {
+                const idx = (y * canvas.width + x) * 4;
+                if (textData.data[idx + 3] > 128) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        tx: x,
+                        ty: y
+                    });
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += (p.tx - p.x) * 0.05;
+                p.y += (p.ty - p.y) * 0.05;
+
+                ctx.fillStyle = "#ffffff";
+                ctx.fillRect(p.x, p.y, 2, 2);
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+
+</body>
+</html>

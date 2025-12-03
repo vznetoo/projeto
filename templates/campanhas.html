@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card" style="margin-top: 25px;">
+    <h2 style="color:#1e7c35; margin-top:0;">Campanhas e Dicas Verdes</h2>
+
+    {% if session.get('user') %}
+    <form action="{{ url_for('campanhas') }}" method="post" class="admin-form">
+
+        <input name="titulo" class="input" placeholder="Título da campanha" required>
+
+        <textarea name="descricao" class="input" style="min-height:120px;" placeholder="Descrição" required></textarea>
+
+        <button type="submit" class="btn-green">Publicar campanha</button>
+    </form>
+    {% else %}
+        <p class="no-posts">Faça login para criar campanhas.</p>
+    {% endif %}
+</div>
+
+<hr class="divider">
+
+{% if posts %}
+    {% for post in posts %}
+    <div class="card" style="margin-bottom:20px;">
+        <h3 style="margin-top:0; color:#1e7c35;">{{ post.titulo }}</h3>
+        <p>{{ post.descricao }}</p>
+        <small style="color:#777;">Autor: {{ post.autor or 'Anônimo' }} — {{ post.data }}</small>
+    </div>
+    {% endfor %}
+{% else %}
+    <p class="no-posts">Nenhuma campanha ainda.</p>
+{% endif %}
+
+{% endblock %}

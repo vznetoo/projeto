@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- JS das folhas -->
+    <script src="{{ url_for('static', filename='js/folhas.js') }}"></script>
+
+    <!-- Container das folhas -->
+    <div id="leaf-container"></div>
+<div class="home-wrapper">
+    <div class="home-card">
+        <img src="{{ url_for('static', filename='img/img.png') }}" alt="EcoMoeda" class="home-logo">
+
+        <h1 class="home-title">EcoMoeda</h1>
+        <p class="home-text">Nosso planeta agradece. Seu bolso também.</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="login-card">
+    <h2>Entrar</h2>
+
+    <form action="/login" method="post">
+        <label>Email</label>
+        <input type="email" name="email" class="input" required>
+
+        <label>Senha</label>
+        <input type="password" name="senha" class="input" required>
+
+        <button class="btn">Entrar</button>
+    </form>
+
+    <p class="login-extra">
+        Não tem uma conta? <a href="/register">Criar conta</a>
+    </p>
+</div>
+
+{% endblock %}

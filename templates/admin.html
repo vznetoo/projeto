@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="admin-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-menu">
+        <h2>Admin</h2>
+        <a href="#usuarios">Usuários</a>
+        <a href="#pontos">Pontos de Coleta</a>
+        <a href="#reciclagem">Reciclagem</a>
+        <a href="#recompensas">Recompensas</a>
+        <a href="#solicitacoes">Solicitações</a>
+        <a href="#pesagens">Pesagens</a>
+        <a class="logout" href="{{ url_for('logout') }}">Sair</a>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL -->
+    <main class="admin-main">
+
+        <!-- USUÁRIOS -->
+        <div id="usuarios" class="admin-card">
+            <h3>Usuários</h3>
+
+            <table class="admin-table">
+                <tr>
+                    <th>ID</th><th>Nome</th><th>Email</th><th>Saldo</th><th>Tipo</th>
+                </tr>
+                {% for u in usuarios %}
+                <tr>
+                    <td>{{ u.id }}</td>
+                    <td>{{ u.nome }}</td>
+                    <td>{{ u.email }}</td>
+                    <td>{{ u.eco_balance }}</td>
+                    <td>{{ u.tipo }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- PONTOS DE COLETA -->
+        <div id="pontos" class="admin-card">
+            <h3>Pontos de Coleta</h3>
+
+            <form class="admin-form" action="{{ url_for('admin_pontos_add') }}" method="post">
+                <input class="input" name="nome" placeholder="Nome" required>
+                <input class="input" name="endereco" placeholder="Endereço" required>
+                <input class="input" name="cidade" placeholder="Cidade" required>
+                <input class="input" name="contato" placeholder="Contato">
+                <input class="input" name="pin" placeholder="PIN (ex: 8421)" required>
+
+                <button class="btn-green" type="submit">Adicionar Ponto</button>
+            </form>
+
+            <ul class="admin-list">
+                {% for p in pontos %}
+                <li>{{ p.nome }} — {{ p.endereco }} — {{ p.cidade }} — {{ p.contato }} — {{ p.pin }} </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- RECICLAGEM -->
+        <div id="reciclagem" class="admin-card">
+            <h3>Quantidade Reciclada</h3>
+
+            {% set total = 0 %}
+            {% for u in usuarios %}
+                {% set total = total + u.eco_balance %}
+            {% endfor %}
+
+            <p class="admin-total"><strong>Total de EcoMoedas distribuídas:</strong> {{ total }}</p>
+        </div>
+
+        <!-- RECOMPENSAS -->
+        <div id="recompensas" class="admin-card">
+            <h3>Criar Recompensa</h3>
+
+            <form class="admin-form" action="{{ url_for('admin_add_recompensa') }}" method="post">
+                <input class="input" name="titulo" placeholder="Título" required>
+                <textarea class="input" name="descricao" placeholder="Descrição" required></textarea>
+                <input class="input" name="custo" type="number" placeholder="Custo" required>
+                <input class="input" name="codigo" placeholder="Código (opcional)">
+                <button class="btn-green" type="submit">Criar</button>
+            </form>
+
+            <h4>Recompensas Existentes</h4>
+            <ul class="admin-list">
+                {% for r in recompensas %}
+                <li>{{ r.titulo }} — {{ r.custo }} — {{ r.codigo }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- SOLICITAÇÕES -->
+        <div id="solicitacoes" class="admin-card">
+            <h3>Solicitações de Recompensa</h3>
+
+            {% if solicitacoes %}
+            <table class="admin-table">
+                <tr>
+                    <th>ID</th>
+                    <th>Usuário</th>
+                    <th>Recompensa</th>
+                    <th>Ações</th>
+                </tr>
+                {% for s in solicitacoes %}
+                <tr>
+                    <td>{{ s.id }}</td>
+                    <td>{{ s.nome }}</td>
+                    <td>{{ s.titulo }}</td>
+                    <td>
+                        <a class="admin-action success" href="/admin/aprovar_recompensa/{{ s.id }}">Aprovar</a>
+                        <a class="admin-action danger" href="/admin/recusar_recompensa/{{ s.id }}">Recusar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            {% else %}
+            <p>Nenhuma solicitação pendente.</p>
+            {% endif %}
+        </div>
+
+        <!-- PESAGENS -->
+        <div id="pesagens" class="admin-card">
+            <h3>Pesagens Pendentes</h3>
+
+            {% if pesagens %}
+            <table class="admin-table">
+                <tr>
+                    <th>ID</th>
+                    <th>Usuário</th>
+                    <th>Peso</th>
+                    <th>EcoMoedas</th>
+                    <th>Ações</th>
+                </tr>
+
+                {% for p in pesagens %}
+                <tr>
+                    <td>{{ p.id }}</td>
+                    <td>{{ p.nome }}</td>
+                    <td>{{ p.peso }}</td>
+                    <td>{{ p.eco_moedas }}</td>
+                    <td>
+                        <a class="admin-action success" href="{{ url_for('admin_validar_pesagem', pes_id=p.id) }}">Validar</a>
+                        <a class="admin-action danger" href="{{ url_for('admin_recusar_pesagem', pes_id=p.id) }}">Recusar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            {% else %}
+            <p>Nenhuma pesagem pendente.</p>
+            {% endif %}
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}

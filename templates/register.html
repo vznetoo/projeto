@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="login-card">
+    <h2>Criar Conta</h2>
+
+    <form action="{{ url_for('register') }}" method="post">
+        <input class="input" name="nome" placeholder="Nome completo" required>
+        <input class="input" name="email" type="email" placeholder="Email" required>
+        <input class="input" name="senha" type="password" placeholder="Senha" required>
+
+        <button class="btn" type="submit">Criar conta</button>
+    </form>
+
+    <p style="text-align:center; margin-top:15px;">
+        Já possui conta?
+        <a href="{{ url_for('login') }}" style="color:#1e7c35; font-weight:bold;">Entrar</a>
+    </p>
+</div>
+
+{% endblock %}
